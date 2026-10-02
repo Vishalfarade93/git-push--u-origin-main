@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Personal Signal — Daily Intelligence &amp; Opportunity Discovery</title>
+  <meta name="description" content="Single-page clean news aggregator and business opportunity discovery system.">
+  
+  <!-- Modern Circular Aesthetic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Cache-busting query parameter ensures fresh modern circular aesthetic loads immediately -->
+  <link rel="stylesheet" href="/static/style.css?v=history_deploy_v4">
+</head>
+<body class="newspaper-page">
+  <div class="broadsheet-viewport">
+
+    <!-- MASTHEAD / HEADER -->
+    <header class="newspaper-masthead">
+      <!-- Top Bar -->
+      <div class="folio-bar">
+        <div class="folio-left">
+          <span class="folio-date" id="currentDateDisplay">Friday, October 2, 2026</span>
+          <span class="folio-divider">•</span>
+          <span class="edition-label">English Edition</span>
+        </div>
+        <div class="folio-right">
+          <!-- Unread indicator toggle -->
+          <button class="unread-pill-btn" id="unreadToggleBtn" title="Filter unread stories">
+            <span class="unread-pulse-dot"></span>
+            <span id="unreadCountText">Loading new...</span>
+          </button>
+          <span class="folio-divider">|</span>
+          <button class="folio-icon-btn" id="refreshFeedsBtn" title="Refresh Feeds">
+            <i class="fa-solid fa-arrows-rotate"></i>
+          </button>
+          <button class="folio-icon-btn" id="analyzeCustomBtn" title="Add External Story">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+          <button class="folio-icon-btn" id="settingsBtn" title="Settings">
+            <i class="fa-solid fa-sliders"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Clean Brand Header -->
+      <div class="newspaper-branding">
+        <h1 class="newspaper-title">THE PERSONAL SIGNAL</h1>
+        <p class="newspaper-subtitle">Curated intelligence on startups, AI, business models, and market opportunities</p>
+      </div>
+
+      <!-- Navigation Bar -->
+      <nav class="newspaper-sections-bar">
+        <div class="section-tabs" id="sectionTabs">
+          <button class="section-tab active" data-category="All">
+            <span>Front Page</span>
+          </button>
+          <button class="section-tab" data-category="Startups & Funding">
+            <span>Startups &amp; Capital</span>
+          </button>
+          <button class="section-tab" data-category="AI & Tech">
+            <span>AI &amp; Tech</span>
+          </button>
+          <button class="section-tab" data-category="Business & Finance">
+            <span>Business &amp; Finance</span>
+          </button>
+          <button class="section-tab" data-category="India & MSME">
+            <span>Policy &amp; MSMEs</span>
+          </button>
+          <button class="section-tab vault-tab" data-category="Vault">
+            <i class="fa-solid fa-bookmark"></i>
+            <span>Idea Vault</span>
+            <span class="vault-counter" id="vaultBadge">0</span>
+          </button>
+        </div>
+
+        <div class="section-tools">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchInput" placeholder="Search signals...">
+            <button id="clearSearchBtn" class="clear-search-btn" style="display:none;">&times;</button>
+          </div>
+          <div class="filter-unread-toggle">
+            <label class="switch-label">
+              <input type="checkbox" id="unreadOnlyCheckbox">
+              <span class="switch-custom"></span>
+              <span class="switch-text">New Only</span>
+            </label>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- MAIN EDITORIAL GRID (FITS VIEWPORT WITHOUT CUTTING OFF) -->
+    <main class="broadsheet-grid" id="broadsheetGrid">
+      
+      <!-- COLUMN 1: LEFT DISPATCH (Market Trends) -->
+      <section class="broadsheet-col col-left" id="colLeft">
+        <div class="col-kicker-bar">
+          <span class="kicker-title">MARKET TRENDS</span>
+          <span class="kicker-rule"></span>
+        </div>
+        <div class="articles-stack" id="leftColArticles">
+          <!-- Injected via app.js -->
+        </div>
+      </section>
+
+      <!-- COLUMN 2: CENTER HERO (Top Story) -->
+      <section class="broadsheet-col col-center" id="colCenter">
+        <div class="col-kicker-bar center-kicker">
+          <span class="pompeian-badge">TOP STORY</span>
+        </div>
+        <div class="center-lead-wrapper" id="centerColArticle">
+          <!-- Injected via app.js -->
+        </div>
+      </section>
+
+      <!-- COLUMN 3: RIGHT WIRE & HISTORY (Recent Dispatches + Reading History) -->
+      <section class="broadsheet-col col-right" id="colRight">
+        <div class="col-kicker-bar right-kicker-bar">
+          <div class="right-tab-pills" id="rightTabPills">
+            <button class="right-pill-btn active" id="rightTabWire" data-pane="wire">
+              <span>Recent Wire</span>
+            </button>
+            <button class="right-pill-btn" id="rightTabHistory" data-pane="history" title="View previously opened and archived stories">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>History</span>
+              <span class="history-count-badge" id="historyCountBadge">0</span>
+            </button>
+          </div>
+          <span class="kicker-rule"></span>
+        </div>
+        <div class="articles-stack right-stack" id="rightColArticles">
+          <!-- Injected via app.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- PAGINATION & STATUS FOOTER -->
+    <footer class="newspaper-footer">
+      <div class="footer-left">
+        <span class="footer-note">Click any story to read the full breakdown and business opportunities</span>
+      </div>
+
+      <!-- Page Controls -->
+      <div class="newspaper-pagination">
+        <button class="page-nav-btn" id="prevPageBtn" title="Previous Page (or Left Arrow)">
+          <i class="fa-solid fa-chevron-left"></i> Previous
+        </button>
+        
+        <div class="page-numbers-group" id="pageNumbersGroup">
+          <span class="page-indicator-text" id="pageIndicatorText">Page 1 of 1</span>
+        </div>
+
+        <button class="page-nav-btn" id="nextPageBtn" title="Next Page (or Right Arrow)">
+          Next <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="footer-right">
+        <span class="keyboard-hint"><kbd>◀</kbd> <kbd>▶</kbd> Turn Pages</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ARTICLE STORY MODAL -->
+  <div class="newspaper-modal-overlay" id="articleModalOverlay">
+    <div class="newspaper-modal-dialog">
+      <button class="modal-close-cross" id="closeArticleModalBtn">&times;</button>
+      
+      <div class="modal-newspaper-content" id="modalStoryBody">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM URL MODAL -->
+  <div class="newspaper-modal-overlay" id="customModalOverlay">
+    <div class="newspaper-modal-dialog form-dialog">
+      <button class="modal-close-cross" id="closeCustomModalBtn">&times;</button>
+      <div class="modal-kicker">ADD STORY</div>
+      <h2 class="modal-headline">Analyze External Story</h2>
+      <p class="modal-sub">Paste an article link or text to extract the market gap and business opportunities.</p>
+      
+      <form id="customAnalysisForm">
+        <div class="form-row">
+          <label>URL (Optional)</label>
+          <input type="url" id="customUrlInput" placeholder="https://techcrunch.com/...">
+        </div>
+        <div class="form-row">
+          <label>Headline (Optional)</label>
+          <input type="text" id="customTitleInput" placeholder="e.g., New AI Infrastructure Scheme">
+        </div>
+        <div class="form-row">
+          <label>Article Text / Excerpt</label>
+          <textarea id="customTextInput" rows="4" placeholder="Paste the story text or key announcements here..."></textarea>
+        </div>
+        <div class="form-buttons">
+          <button type="button" class="btn-newspaper-secondary" id="cancelCustomBtn">Cancel</button>
+          <button type="submit" class="btn-newspaper-primary" id="submitCustomBtn">Analyze Opportunity</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SETTINGS MODAL -->
+  <div class="newspaper-modal-overlay" id="settingsModalOverlay">
+    <div class="newspaper-modal-dialog form-dialog">
+      <button class="modal-close-cross" id="closeSettingsModalBtn">&times;</button>
+      <div class="modal-kicker">SETTINGS</div>
+      <h2 class="modal-headline">Intelligence Engine</h2>
+      <p class="modal-sub">Configure your optional Google Gemini API key or view active feeds.</p>
+      
+      <div class="form-row">
+        <label>Google Gemini API Key (Optional)</label>
+        <input type="password" id="geminiApiKeyInput" placeholder="AIzaSy...">
+        <span class="field-hint">If left empty, the system runs on its built-in opportunity model.</span>
+      </div>
+
+      <div class="sources-box">
+        <label>Active Sources:</label>
+        <div class="sources-tags" id="sourcesTags">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <div class="form-buttons">
+        <button type="button" class="btn-newspaper-secondary" id="cancelSettingsBtn">Close</button>
+        <button type="button" class="btn-newspaper-primary" id="saveSettingsBtn">Save Settings</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="newspaper-toast" id="newspaperToast"></div>
+
+  <script src="/static/app.js?v=history_deploy_v4"></script>
+</body>
+</html>

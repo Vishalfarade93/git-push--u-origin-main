@@ -1,0 +1,23 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Antigravity & IDE
+.gemini/
+.idea/
+.vscode/
+
+# Environment & keys
+.env
+.env.local
+
+# Operating System Files
+.DS_Store
+Thumbs.db
